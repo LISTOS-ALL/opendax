@@ -12,7 +12,6 @@ RUN groupadd -r --gid ${GID} app \
 
 RUN gem install bundler
 RUN gem update --system
-RUN bundle update --bundler
 
 
 USER app
