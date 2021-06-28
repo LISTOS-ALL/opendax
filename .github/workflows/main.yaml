@@ -1,0 +1,24 @@
+name: CICD - OPENDAX
+
+on:
+  push:
+    branches: [ 2-6-stable ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker login
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+      - name: docker build
+        run: |
+          docker build . -t $DOCKER_USER/opendax:1.0.$GITHUB_RUN_NUMBER
+      - name: docker push
+        run: |
+          docker push $DOCKER_USER/opendax:1.0.$GITHUB_RUN_NUMBER
