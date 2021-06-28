@@ -9,6 +9,12 @@ RUN groupadd -r --gid ${GID} app \
  && useradd --system --create-home --home ${APP_HOME} --shell /sbin/nologin --no-log-init \
       --gid ${GID} --uid ${UID} app
 
+
+RUN gem install bundler
+RUN gem update --system
+RUN bundle update --bundler
+
+
 USER app
 WORKDIR $APP_HOME
 
